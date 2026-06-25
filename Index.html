@@ -1,0 +1,443 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePass - Gerador de Senhas Seguras</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="themeBtn">🌙</button>
+    </div>
+    <main class="container">
+        <div class="card">
+            <h1>🔐 SecurePass</h1>
+            <p class="subtitle">
+                Gere senhas fortes utilizando padrões modernos de segurança.
+            </p>
+            <div class="password-box">
+                <input type="text" id="password" readonly>
+                <button id="copyBtn">📋</button>
+            </div>
+            <div class="controls">
+                <div class="slider-container">
+                    <label>
+                        Tamanho da Senha:
+                        <span id="lengthValue">16</span>
+                    </label>
+                    <input
+                        type="range"
+                        min="4"
+                        max="64"
+                        value="16"
+                        id="length"
+                    >
+                </div>
+                <div class="options">
+                    <label>
+                        <input type="checkbox" id="uppercase" checked>
+                        Letras Maiúsculas
+                    </label>
+                    <label>
+                        <input type="checkbox" id="lowercase" checked>
+                        Letras Minúsculas
+                    </label>
+                    <label>
+                        <input type="checkbox" id="numbers" checked>
+                        Números
+                    </label>
+                    <label>
+                        <input type="checkbox" id="symbols" checked>
+                        Caracteres Especiais
+                    </label>
+                </div>
+                <button id="generateBtn" class="generate-btn">
+                    Gerar Nova Senha
+                </button>
+            </div>
+            <div class="strength-section">
+                <div class="strength-header">
+                    <span>Força da Senha</span>
+                    <span id="strengthText">Muito Forte</span>
+                </div>
+                <div class="strength-bar">
+                    <div id="strengthFill"></div>
+                </div>
+            </div>
+            <div id="toast" class="toast">
+                Senha copiada com sucesso!
+            </div>
+        </div>
+        <div class="tips">
+            <h2>🛡️ Dicas de Segurança</h2>
+            <ul>
+                <li>Utilize senhas com pelo menos 12 caracteres.</li>
+                <li>Não reutilize a mesma senha em diferentes serviços.</li>
+                <li>Ative autenticação em dois fatores (2FA).</li>
+                <li>Use um gerenciador de senhas confiável.</li>
+                <li>Evite informações pessoais na senha.</li>
+                <li>Troque senhas comprometidas imediatamente.</li>
+            </ul>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
+
+style.css
+
+:root{
+    --primary:#0d6efd;
+    --secondary:#3b82f6;
+    --dark:#0f172a;
+    --card:#ffffff;
+    --text:#1e293b;
+    --bg:#f4f8ff;
+    --shadow:0 10px 30px rgba(0,0,0,.12);
+}
+.dark-mode{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+body{
+    min-height:100vh;
+    background:linear-gradient(
+        135deg,
+        #0d6efd,
+        #60a5fa
+    );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    transition:.3s;
+}
+.container{
+    width:100%;
+    max-width:800px;
+}
+.card{
+    background:var(--card);
+    color:var(--text);
+    padding:35px;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+.subtitle{
+    text-align:center;
+    opacity:.8;
+    margin-bottom:25px;
+}
+.password-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+.password-box input{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    font-size:1rem;
+    background:#eaf2ff;
+}
+.password-box button{
+    width:60px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:var(--primary);
+    color:white;
+    font-size:1.2rem;
+    transition:.3s;
+}
+.password-box button:hover{
+    transform:scale(1.05);
+}
+.slider-container{
+    margin-bottom:20px;
+}
+.slider-container label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+input[type="range"]{
+    width:100%;
+}
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:25px;
+}
+.options label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.generate-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    color:white;
+    font-size:1rem;
+    font-weight:bold;
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+    transition:.3s;
+}
+.generate-btn:hover{
+    transform:translateY(-2px);
+}
+.strength-section{
+    margin-top:25px;
+}
+.strength-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+.strength-bar{
+    width:100%;
+    height:12px;
+    background:#dbeafe;
+    border-radius:20px;
+    overflow:hidden;
+}
+#strengthFill{
+    height:100%;
+    width:100%;
+    transition:.4s ease;
+    border-radius:20px;
+}
+.tips{
+    margin-top:25px;
+    background:rgba(255,255,255,.95);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+}
+.tips h2{
+    margin-bottom:15px;
+}
+.tips ul{
+    padding-left:20px;
+}
+.tips li{
+    margin-bottom:8px;
+}
+.toast{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    background:#22c55e;
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+}
+.toast.show{
+    opacity:1;
+}
+.theme-toggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+}
+.theme-toggle button{
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:1.2rem;
+    background:white;
+    box-shadow:var(--shadow);
+}
+.animate{
+    animation:pop .4s ease;
+}
+@keyframes pop{
+    0%{
+        transform:scale(.95);
+        opacity:.7;
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+@media(max-width:768px){
+    .card{
+        padding:25px;
+    }
+    .options{
+        grid-template-columns:1fr;
+    }
+}
+
+script.js
+
+const passwordField = document.getElementById("password");
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+const lengthSlider = document.getElementById("length");
+const lengthValue = document.getElementById("lengthValue");
+const uppercase = document.getElementById("uppercase");
+const lowercase = document.getElementById("lowercase");
+const numbers = document.getElementById("numbers");
+const symbols = document.getElementById("symbols");
+const strengthFill = document.getElementById("strengthFill");
+const strengthText = document.getElementById("strengthText");
+const toast = document.getElementById("toast");
+const themeBtn = document.getElementById("themeBtn");
+const CHARSETS = {
+    uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    lowercase: "abcdefghijklmnopqrstuvwxyz",
+    numbers: "0123456789",
+    symbols: "!@#$%^&*()_+-=[]{}|;:,.<>?"
+};
+lengthSlider.addEventListener("input", () => {
+    lengthValue.textContent = lengthSlider.value;
+});
+function secureRandom(max) {
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    return array[0] % max;
+}
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = secureRandom(i + 1);
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+function generatePassword() {
+    const selected = [];
+    if (uppercase.checked)
+        selected.push(CHARSETS.uppercase);
+    if (lowercase.checked)
+        selected.push(CHARSETS.lowercase);
+    if (numbers.checked)
+        selected.push(CHARSETS.numbers);
+    if (symbols.checked)
+        selected.push(CHARSETS.symbols);
+    if (selected.length === 0) {
+        alert("Selecione pelo menos uma opção.");
+        return;
+    }
+    const length = Number(lengthSlider.value);
+    let passwordArray = [];
+    // Garante ao menos um caractere de cada grupo
+    selected.forEach(group => {
+        passwordArray.push(
+            group[secureRandom(group.length)]
+        );
+    });
+    const allChars = selected.join("");
+    while (passwordArray.length < length) {
+        passwordArray.push(
+            allChars[secureRandom(allChars.length)]
+        );
+    }
+    passwordArray = shuffle(passwordArray);
+    passwordField.value =
+        passwordArray.slice(0, length).join("");
+    passwordField.classList.remove("animate");
+    void passwordField.offsetWidth;
+    passwordField.classList.add("animate");
+    updateStrength();
+}
+function updateStrength() {
+    let score = 0;
+    if (uppercase.checked) score++;
+    if (lowercase.checked) score++;
+    if (numbers.checked) score++;
+    if (symbols.checked) score++;
+    const len = Number(lengthSlider.value);
+    if (len >= 12) score++;
+    if (len >= 20) score++;
+    if (len >= 32) score++;
+    if (score <= 2) {
+        strengthText.textContent = "Fraca";
+        strengthFill.style.width = "25%";
+        strengthFill.style.background = "#ef4444";
+    }
+    else if (score <= 4) {
+        strengthText.textContent = "Média";
+        strengthFill.style.width = "50%";
+        strengthFill.style.background = "#f59e0b";
+    }
+    else if (score <= 6) {
+        strengthText.textContent = "Forte";
+        strengthFill.style.width = "75%";
+        strengthFill.style.background = "#22c55e";
+    }
+    else {
+        strengthText.textContent = "Muito Forte";
+        strengthFill.style.width = "100%";
+        strengthFill.style.background = "#16a34a";
+    }
+}
+async function copyPassword() {
+    if (!passwordField.value) return;
+    await navigator.clipboard.writeText(
+        passwordField.value
+    );
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
+themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    themeBtn.textContent =
+        document.body.classList.contains("dark-mode")
+        ? "☀️"
+        : "🌙";
+});
+generateBtn.addEventListener(
+    "click",
+    generatePassword
+);
+copyBtn.addEventListener(
+    "click",
+    copyPassword
+);
+[
+    uppercase,
+    lowercase,
+    numbers,
+    symbols,
+    lengthSlider
+].forEach(element => {
+    element.addEventListener(
+        "change",
+        updateStrength
+    );
+});
+generatePassword();
